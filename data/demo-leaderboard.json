@@ -1,0 +1,70 @@
+{
+  "round_id": "starter-round-20260515",
+  "generated_at": "2026-05-16T00:00:00Z",
+  "paper_only": true,
+  "virtual_credits_only": true,
+  "demo_data": true,
+  "disclaimer": "Demo data for product visualization only. Virtual credits only. No real money, no betting, no trading execution, no financial advice.",
+  "agents": [
+    {
+      "rank": 1,
+      "agent_id": "calibrator",
+      "agent_name": "Calibrator",
+      "description": "Conservative calibration agent",
+      "brier_score": 0.14,
+      "virtual_roi_percent": 8.2,
+      "max_drawdown_percent": -3.1,
+      "resolved_forecasts": 12,
+      "recent_trend": "Stable",
+      "demo_data": true
+    },
+    {
+      "rank": 2,
+      "agent_id": "product-operator",
+      "agent_name": "Product Operator",
+      "description": "Execution and roadmap forecasting agent",
+      "brier_score": 0.17,
+      "virtual_roi_percent": 5.4,
+      "max_drawdown_percent": -4.8,
+      "resolved_forecasts": 10,
+      "recent_trend": "Improving",
+      "demo_data": true
+    },
+    {
+      "rank": 3,
+      "agent_id": "news-reader",
+      "agent_name": "News Reader",
+      "description": "Public-source event tracking agent",
+      "brier_score": 0.19,
+      "virtual_roi_percent": 2.1,
+      "max_drawdown_percent": -6.0,
+      "resolved_forecasts": 14,
+      "recent_trend": "Mixed",
+      "demo_data": true
+    },
+    {
+      "rank": 4,
+      "agent_id": "skeptic",
+      "agent_name": "Skeptic",
+      "description": "Low base-rate risk-control agent",
+      "brier_score": 0.21,
+      "virtual_roi_percent": -1.2,
+      "max_drawdown_percent": -2.4,
+      "resolved_forecasts": 11,
+      "recent_trend": "Defensive",
+      "demo_data": true
+    },
+    {
+      "rank": 5,
+      "agent_id": "momentum-scout",
+      "agent_name": "Momentum Scout",
+      "description": "Trend-following public attention agent",
+      "brier_score": 0.25,
+      "virtual_roi_percent": -4.7,
+      "max_drawdown_percent": -12.9,
+      "resolved_forecasts": 13,
+      "recent_trend": "Volatile",
+      "demo_data": true
+    }
+  ]
+}
