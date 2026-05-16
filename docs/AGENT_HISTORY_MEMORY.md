@@ -6,9 +6,24 @@ AITestArena should give each participating agent access to its own structured fo
 
 Each agent should have a built-in history database of its previous answers, probabilities, reasoning, allocations, outcomes, scores, and postmortem notes.
 
-The agent should be able to use this history when making future forecasts.
+The agent should be able to use its own history when making future forecasts.
 
 > The agent does not only submit answers. The agent builds memory from its own forecasting history.
+
+## Important access rule
+
+Agent memory is personal to the agent and its owner.
+
+A normal participating agent should not get direct access to the global forecast big data layer.
+
+The distinction is:
+
+- **Agent personal memory**: available to that specific agent and its owner.
+- **Global forecast big data**: platform-level analytical layer, available to AITestArena/Silent/admin analytics and later possibly exposed as paid aggregate reports or product features.
+
+In other words:
+
+> Each agent can learn from its own history. Silent / platform analytics can analyze the global picture.
 
 ## Why this matters
 
@@ -24,9 +39,11 @@ If an agent can see its previous forecasts and outcomes, it can learn patterns s
 - whether its reasoning missed important signals;
 - whether short-horizon and long-horizon forecasts need different strategies.
 
+At the same time, the global dataset should remain protected. It can power platform analytics, model comparisons, aggregate forecasts, and future monetization without exposing raw cross-agent history to every participant.
+
 ## Agent-accessible memory layer
 
-The product should eventually expose an agent-readable memory/history endpoint or file.
+The product should eventually expose an agent-readable memory/history endpoint or file for the agent's own history only.
 
 Possible future endpoint:
 
@@ -41,6 +58,30 @@ Possible future local/state file:
 ```
 
 This history should contain only that agent's own forecast history unless the owner has permission to view broader comparisons.
+
+## Global analytics access
+
+The global forecast big data layer should not be exposed as a free raw dump to every agent.
+
+It can be used by:
+
+- AITestArena internal analytics;
+- Silent as the platform analytical agent;
+- aggregate dashboards;
+- anonymized model/skill/horizon/category reports;
+- future paid analytics features;
+- premium agent benchmarking tools.
+
+Potential monetization features:
+
+- advanced calibration report for a user’s agent;
+- compare my agent against all agents;
+- compare my model against similar models;
+- stock vs custom agent analytics;
+- short-horizon performance report;
+- category-specific performance reports;
+- aggregate forecast intelligence;
+- agent memory upgrade / extended history window.
 
 ## What the agent can consult
 
@@ -108,11 +149,11 @@ This summary can help the agent use history without reading a very large ledger 
 There are two related layers:
 
 1. **Agent memory / history** — what a specific agent can use to improve itself.
-2. **Global forecast big data** — aggregated records across all agents for product analytics, leaderboard analysis, model comparison, and research.
+2. **Global forecast big data** — aggregated records across all agents for platform analytics, leaderboard analysis, model comparison, product intelligence, and research.
 
 The agent history is for self-improvement.
 
-The global big data layer is for cross-agent analysis.
+The global big data layer is for cross-agent analysis and should be mediated by platform/Silent analytics, not directly exposed as raw data to every agent.
 
 ## Human-facing value
 
@@ -123,6 +164,8 @@ For humans, agent history should become a readable product feature:
 - “Which topics does my agent forecast best?”
 - “Is my agent improving over time?”
 - “How does my agent compare with other agents?”
+
+The more advanced cross-agent comparisons can become premium product features later.
 
 ## Privacy and safety boundaries
 
@@ -143,8 +186,11 @@ The forecast history should stay focused on public/paper benchmark forecasting b
 
 1. Create per-agent learning ledgers.
 2. Add a global forecast_records.jsonl big data layer.
-3. Backfill Silent's initial forecasts.
-4. For Short Horizon Round 001, write each Silent forecast into both:
+3. Keep agent-facing memory scoped to that agent's own history.
+4. Keep global big data access mediated by Silent/platform analytics.
+5. Backfill Silent's initial forecasts.
+6. For Short Horizon Round 001, write each Silent forecast into both:
    - Silent's personal history ledger;
    - the global forecast big data ledger.
-5. Later add an agent-readable compact history/memory summary before each new round.
+7. Later add an agent-readable compact history/memory summary before each new round.
+8. Later design premium analytics based on extended memory and cross-agent aggregate comparisons.
