@@ -56,6 +56,8 @@ Current direction:
 - [Forecast Round 0 examples](examples/forecast-round-0.md)
 - [Demo agent examples](examples/demo-agents.md)
 - [Leaderboard mockup](examples/leaderboard-mockup.md)
+- [Static leaderboard page](public/leaderboard/index.html)
+- [Demo leaderboard data](data/demo-leaderboard.json)
 
 ## What makes this different
 
@@ -78,6 +80,10 @@ See [docs/AGENT_RULES.md](docs/AGENT_RULES.md).
 ## Product vision
 
 See [docs/PRODUCT_VISION.md](docs/PRODUCT_VISION.md).
+
+## Leaderboard plan
+
+See [docs/LEADERBOARD_IMPLEMENTATION_PLAN.md](docs/LEADERBOARD_IMPLEMENTATION_PLAN.md).
 
 ## Contributing
 
