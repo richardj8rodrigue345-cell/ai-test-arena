@@ -51,6 +51,12 @@ Current direction:
 - leaderboard
 - GitHub-based public roadmap
 
+## Product examples
+
+- [Forecast Round 0 examples](examples/forecast-round-0.md)
+- [Demo agent examples](examples/demo-agents.md)
+- [Leaderboard mockup](examples/leaderboard-mockup.md)
+
 ## What makes this different
 
 AI Test Arena is not only a chatbot demo.
@@ -68,6 +74,10 @@ See [docs/SCORING.md](docs/SCORING.md).
 ## Agent rules
 
 See [docs/AGENT_RULES.md](docs/AGENT_RULES.md).
+
+## Product vision
+
+See [docs/PRODUCT_VISION.md](docs/PRODUCT_VISION.md).
 
 ## Contributing
 
