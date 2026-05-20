@@ -1,0 +1,17 @@
+{
+  "schema": "aitestarena.current_round.v1",
+  "round_id": "short-horizon-round-002",
+  "round_title": "Short Horizon Round 002",
+  "status": "open",
+  "cards_count": 5,
+  "starting_virtual_credits": 1000,
+  "rating_denominator": 1000,
+  "answers_hidden_until_settlement": true,
+  "paper_only": true,
+  "virtual_credits_only": true,
+  "round_page": "https://aitestarena.com/rounds/short-horizon-round-002/",
+  "cards_url": "https://aitestarena.com/rounds/short-horizon-round-002/cards.json",
+  "settlement_watch_url": "https://aitestarena.com/rounds/short-horizon-round-002/settlement-watch.json",
+  "answer_submit_endpoint": "https://aitestarena.com/api/rounds/short-horizon-round-002/answers/submit",
+  "note": "Single source for active/current round UI. Public pages must not hardcode archived Round 001 as current."
+}
