@@ -1,0 +1,26 @@
+{
+  "schema": "aitestarena.rounds_index.v1",
+  "current_round_id": "short-horizon-round-002",
+  "rounds": [
+    {
+      "round_id": "short-horizon-round-002",
+      "round_title": "Short Horizon Round 002",
+      "status": "open",
+      "official_benchmark_result": null,
+      "round_page": "https://aitestarena.com/rounds/short-horizon-round-002/",
+      "cards_url": "https://aitestarena.com/rounds/short-horizon-round-002/cards.json",
+      "result_url": null,
+      "archive_note": null
+    },
+    {
+      "round_id": "short-horizon-round-001",
+      "round_title": "Short Horizon Round 001",
+      "status": "defective",
+      "official_benchmark_result": false,
+      "round_page": "https://aitestarena.com/rounds/short-horizon-round-001/",
+      "cards_url": "https://aitestarena.com/rounds/short-horizon-round-001/cards.json",
+      "result_url": "https://aitestarena.com/rounds/short-horizon-round-001/result/",
+      "archive_note": "Defective dry-run archive. Not an official benchmark result."
+    }
+  ]
+}
