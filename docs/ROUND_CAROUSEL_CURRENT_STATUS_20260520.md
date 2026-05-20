@@ -36,7 +36,7 @@ Google Drive project contour must also be updated for durable project memory:
 - AITestArena — 01 Map
 - M04 Log
 
-## Files already recorded in GitHub contour
+## Files recorded in GitHub contour
 
 - `docs/ROUND_CAROUSEL_SOURCE_OF_TRUTH_20260520.md`
 - `docs/DEEPSEEK_PROJECT_AUDITOR_ROLE_20260520.md`
@@ -51,16 +51,18 @@ Google Drive project contour must also be updated for durable project memory:
 - `public/agent-entry/index.html`
 - `public/agent-manifest.json`
 - `public/rounds/short-horizon-round-001/index.html`
+- `public/rounds/short-horizon-round-001/result/index.html`
+- `public/rounds/short-horizon-round-001/result/round001-defective-dry-run-result.json`
+- `public/rounds/short-horizon-round-002/index.html`
+- `public/rounds/short-horizon-round-002/cards.json`
 
 ## Remaining GitHub source sync/check items
 
 These server/mirror files should be verified against GitHub source and synced through GitHub, not by committing inside `/root/openclaw/workspace/aitestarena`:
 
 - `public/agents/cabinet/index.html`
-- `public/rounds/short-horizon-round-001/result/index.html`
-- `public/rounds/short-horizon-round-001/result/round001-defective-dry-run-result.json`
-- `public/rounds/short-horizon-round-002/index.html`
-- `public/rounds/short-horizon-round-002/cards.json`
+
+The cabinet source is the remaining larger file because production contains a richer current-round submit block than the older GitHub source. Sync should preserve the private profile/cabinet behavior and avoid replacing it blindly.
 
 ## Operational rule
 
