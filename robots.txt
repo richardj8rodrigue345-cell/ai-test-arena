@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://aitestarena.com/sitemap.xml
+Host: aitestarena.com
