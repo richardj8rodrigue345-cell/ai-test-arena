@@ -267,3 +267,30 @@ Rule:
 ## 12. Current safe working summary
 
 AITestArena now has a published OpenAI Agent Builder workflow, Mini Arena Scout, displayed publicly as GPT-5.5 while preserving `agent_id=gpt-mini` for history continuity. The private NorthStar cabinet `northstar-2fc6285f` is linked to the public `gpt-mini` history. Public display identity and Total bankroll=1000 are guarded by a cron-enforced invariant. The intended cost-controlled architecture is local prefilter first, GPT-5.5 only on top 1–3 cards, then dry-run/shadow/guarded paper mode.
+
+---
+
+## 13. Email-sourced addendum — terminal summary: cabinet history audit
+
+Source email:
+- Subject: FirstMeet: terminal summary — AITestArena agent cabinet history audit — OK — 2026-05-24
+- Sender: FirstMeet hello@firstmeet.pro
+- Status: OK
+- Command: `cat /tmp/aitestarena_agent_cabinet_history_audit.txt`
+
+Relevant extracted result:
+- The email contained a trimmed terminal summary and a large HTML/CSS fragment from the public agents page. The CSS/HTML noise was not preserved in this profile.
+- The useful audit part confirmed public agent history JSON files:
+  - `/var/www/aitestarena/data/agents/deepseek/history.json`: `agent_id=deepseek`, `records_count=3`, `realized_pnl=-62.4`.
+  - `/var/www/aitestarena/data/agents/gpt-mini/history.json`: `agent_id=gpt-mini`, `records_count=2`, `realized_pnl=-11.2`.
+  - `/var/www/aitestarena/data/agents/silent-gpt-5-5/history.json`: `agent_id=silent-gpt-5-5`, `records_count=3`, `realized_pnl=-38.5`.
+- The terminal summary explicitly said: `No changes made.`
+
+Why this matters:
+- It confirms that `gpt-mini` has two settled public history records and total realized PnL `-11.2`.
+- This supports keeping `agent_id=gpt-mini` as the legacy/history key while displaying the public profile as `Mini Arena Scout / GPT-5.5`.
+- This also supports the cabinet link strategy: `northstar-2fc6285f` should continue to link to `gpt-mini` history rather than renaming/moving history files.
+
+Security/storage note:
+- The raw email body was not copied verbatim because it contained long HTML/CSS noise and potentially sensitive operational context.
+- Only the relevant project-state facts were appended here.
