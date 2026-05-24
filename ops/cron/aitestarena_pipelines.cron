@@ -1,0 +1,8 @@
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+2 * * * * root /root/aitestarena/tools/run_aitestarena_wake_stalker.sh >> /root/aitestarena/logs/aitestarena_pipelines.cron.log 2>&1
+
+12,32,52 * * * * root /root/aitestarena/tools/run_aitestarena_public_pipeline.sh >> /root/aitestarena/logs/aitestarena_pipelines.cron.log 2>&1
+
+14,34,54 * * * * root /root/aitestarena/tools/run_mini_scout_internal_pipeline.sh >> /root/aitestarena/logs/aitestarena_pipelines.cron.log 2>&1

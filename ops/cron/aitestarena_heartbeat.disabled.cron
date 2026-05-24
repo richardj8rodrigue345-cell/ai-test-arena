@@ -1,0 +1,2 @@
+# Disabled after AITestArena pipeline split.
+# Use /etc/cron.d/aitestarena_pipelines.
