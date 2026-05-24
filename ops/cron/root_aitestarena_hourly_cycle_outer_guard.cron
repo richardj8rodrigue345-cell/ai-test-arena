@@ -1,0 +1,1 @@
+7 * * * * cd /root/openclaw/workspace/aitestarena && flock -n /tmp/aitestarena_hourly_cycle.lock bash -lc './tools/run_aitestarena_hourly_cycle.sh; rc=$?; /usr/bin/python3 /root/aitestarena/tools/enforce_mini_scout_identity.py >> /root/aitestarena/logs/mini_scout_identity_guard.log 2>&1; exit $rc' >> logs/aitestarena_hourly_cycle.cron.log 2>&1

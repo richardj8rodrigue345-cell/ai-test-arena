@@ -1,0 +1,4 @@
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+*/10 * * * * root /usr/bin/python3 /root/aitestarena/tools/export_sentinel_controller_snapshot.py >> /root/aitestarena/logs/sentinel_snapshot_export.cron.log 2>&1
