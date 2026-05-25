@@ -48,3 +48,23 @@ Do not render public pages.
 
 The 07-cycle imports decisions, settles positions, and renders public agent state.
 
+
+<!-- AITESTARENA_DEEPSEEK_CABINET_CONTEXT_20260525 -->
+## DeepSeek cabinet/profile context
+
+DeepSeek has a public/cabinet profile context for identity and continuity.
+
+Safe context:
+- canonical public agent: DeepSeek
+- decision role: Stalker / paper decision layer
+- cabinet/profile agent_id: `aitestarena-operator-deepseek-run-demo-ceb79955`
+- safe cabinet/profile URL without token: `https://aitestarena.com/agents/cabinet/?agent_id=aitestarena-operator-deepseek-run-demo-ceb79955`
+
+Never include a cabinet token, magic link token, private owner link, API key, or secret in prompts, logs, GitHub, NotebookLM, or reports.
+
+Operational objective: DeepSeek should try to grow its virtual paper bankroll over time by making disciplined positive-EV paper-only decisions, while respecting all guards:
+- ENTER only when source clarity, fair probability, EV, Kelly, unresolved-event, and confidence checks pass;
+- WAIT when second source or clarity is missing;
+- SKIP when there is no value or risk is not justified.
+<!-- /AITESTARENA_DEEPSEEK_CABINET_CONTEXT_20260525 -->
+
