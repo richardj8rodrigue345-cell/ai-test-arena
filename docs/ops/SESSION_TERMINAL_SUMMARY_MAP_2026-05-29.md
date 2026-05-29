@@ -1,7 +1,7 @@
 # SESSION_TERMINAL_SUMMARY_MAP_2026-05-29
 
 Status: Gmail-derived session map for AITestArena / Writer / FirstMeet operations on 2026-05-29.
-Source basis: terminal summary emails sent by `/root/openclaw/ops/mail_terminal_summary.py`, plus Google Drive active-source update.
+Source basis: terminal summary emails sent by `/root/openclaw/ops/mail_terminal_summary.py`, plus Google Drive active-source updates.
 
 This file is a GitHub navigation/session-map layer. It is not raw runtime truth and does not contain secrets, tokens, private client data, raw submissions, or long logs.
 
@@ -69,6 +69,19 @@ Agent Cabinet:
 - `AITestArena | UI | agent cabinet remove duplicate nav 20260529-215218` still left two nav blocks and returned WARN.
 - `AITestArena | UI | agent cabinet hard nav dedupe 20260529-215624` confirmed final cabinet state: `nav_count=1`, `arena_nav_count=1`, `header_count=0`, `RESULT=OK`.
 
+Regression after cabinet styling and final source-level fix:
+
+- `AITestArena | UI | regression audit 20260529-221602` found duplicate nav on rendered `/agents/` output: `nav_count=2`, `arena_nav_count=1`, plus a broken literal `\\1\\n` insertion and old `top-nav / Register Agent` block in rendered HTML. This showed the regression was not just CSS.
+- `AITestArena | UI | nav training regression fix 20260529-221952` created and applied a source-level safety helper:
+  - `/root/aitestarena/tools/aitestarena_ui_postprocess.py`
+  - Patched renderers to call the helper:
+    - `/root/aitestarena/tools/render_agents_public_safe.py`
+    - `/root/aitestarena/tools/render_watchlist_public_safe.py`
+    - `/root/aitestarena/tools/render_silent_gpt55_training.py`
+  - Helper purpose: remove duplicate nav/top-nav blocks, remove broken literal `\\1\\n` artifacts, normalize `Register Agent` to `Agent Entry`, and restore the real Training page if a placeholder/stub is generated.
+  - Golden real Training page source selected: `/root/aitestarena/backups/ui_nav_height_unify_20260529-213010/public/training_index.html`.
+  - Final confirmation: `RESULT=OK`, `py_helper_rc=0`, `py_agents_rc=0`, `py_watch_rc=0`, `py_train_rc=0`, `training_marker_rc=0`, `render_rc=NOT_RUN`.
+
 ### Key paths touched
 
 Public CSS and mirror:
@@ -86,19 +99,25 @@ Public HTML pages and mirror equivalents:
 - `/var/www/aitestarena/agents/cabinet/index.html`
 - matching files under `/root/firstmeet_github_upload/site/aitestarena/...`
 
-Renderers:
+Renderers and UI safety helper:
 
+- `/root/aitestarena/tools/aitestarena_ui_postprocess.py`
 - `/root/aitestarena/tools/render_agents_public_safe.py`
 - `/root/aitestarena/tools/render_watchlist_public_safe.py`
 - `/root/aitestarena/tools/render_silent_gpt55_training.py`
 
+Golden backup now important for Training recovery:
+
+- `/root/aitestarena/backups/ui_nav_height_unify_20260529-213010/public/training_index.html`
+
 ### Final confirmed technical state
 
 - Public pages smoke-tested as HTTP 200 during summaries.
-- Renderer syntax final state: `py_agents_rc=0`, `py_watch_rc=0`, `py_train_rc=0`.
-- `/agents/cabinet/` final nav state: `nav_count=1`, `arena_nav_count=1`, `header_count=0`.
-- No render was intentionally run during the final cabinet nav dedupe.
-- User visually confirmed nav buttons had equal height and stopped jumping between pages.
+- Renderer syntax final state after the final regression fix: `py_helper_rc=0`, `py_agents_rc=0`, `py_watch_rc=0`, `py_train_rc=0`.
+- Training recovery final state: `training_marker_rc=0`.
+- `/agents/cabinet/` final nav state after hard dedupe: `nav_count=1`, `arena_nav_count=1`, `header_count=0`.
+- No render was intentionally run during the final cabinet nav dedupe or final nav/training regression fix.
+- User visually confirmed nav buttons had equal height and stopped jumping between pages before the later regression; the final helper was added specifically to prevent recurrence on rendered pages.
 
 ### Backups referenced by terminal summaries
 
@@ -113,6 +132,7 @@ Terminal summaries created dated backups under `/root/aitestarena/backups/`, inc
 - `ui_agent_cabinet_unify_*`
 - `ui_agent_cabinet_remove_duplicate_nav_*`
 - `ui_agent_cabinet_nav_hard_dedupe_*`
+- `ui_nav_training_regression_fix_20260529-221952`
 
 The exact paths are in Gmail terminal summary emails. Some long backup paths may be masked in email snippets; use terminal summaries or server verification if exact path is required.
 
@@ -135,18 +155,23 @@ Do not reapply the failed `background unify` patch directly. If background consi
 Any future UI change touching renderers must include syntax checks:
 
 ```bash
+python3 -m py_compile /root/aitestarena/tools/aitestarena_ui_postprocess.py
 python3 -m py_compile /root/aitestarena/tools/render_agents_public_safe.py
 python3 -m py_compile /root/aitestarena/tools/render_watchlist_public_safe.py
 python3 -m py_compile /root/aitestarena/tools/render_silent_gpt55_training.py
 ```
 
-If `/training/` changes unexpectedly, check `/root/aitestarena/tools/render_silent_gpt55_training.py` first because it can regenerate the training page.
+If `/training/` changes unexpectedly, check `/root/aitestarena/tools/aitestarena_ui_postprocess.py` and `/root/aitestarena/tools/render_silent_gpt55_training.py` first, because training can be regenerated and the helper now restores from the golden real Training backup when a placeholder/stub is produced.
 
-If `/agents/cabinet/` shows duplicate nav again, check `/var/www/aitestarena/agents/cabinet/index.html` and mirror for multiple `<nav>` blocks. Final intended condition is:
+If duplicate navigation or old `Register Agent` appears again on `/agents/`, `/watchlist/`, `/training/`, or `/agents/cabinet/`, check `aitestarena_ui_postprocess.py` and the three renderers before editing CSS. The helper is now an active part of the UI render safety layer.
+
+Expected postprocess invariants for rendered/cabinet pages:
 
 - `nav_count=1`
 - `arena_nav_count=1`
-- `header_count=0`
+- `topnav_count=0`
+- `backref_count=0`
+- `Register Agent` count = 0
 
 ## Other Gmail terminal-summary groups on 2026-05-29
 
@@ -177,6 +202,5 @@ These groups should be expanded only if relevant to the next task.
 ## Sync state
 
 - Gmail evidence: present.
-- Google Drive active source: updated with a compact AITestArena UI Phase 1 / cabinet polish note.
+- Google Drive active source: updated with compact AITestArena UI Phase 1 / cabinet polish note and later regression-fix addendum.
 - GitHub session map: this file.
-
