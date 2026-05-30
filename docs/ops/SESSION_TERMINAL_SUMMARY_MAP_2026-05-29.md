@@ -82,6 +82,16 @@ Regression after cabinet styling and final source-level fix:
   - Golden real Training page source selected: `/root/aitestarena/backups/ui_nav_height_unify_20260529-213010/public/training_index.html`.
   - Final confirmation: `RESULT=OK`, `py_helper_rc=0`, `py_agents_rc=0`, `py_watch_rc=0`, `py_train_rc=0`, `training_marker_rc=0`, `render_rc=NOT_RUN`.
 
+Post-render wrapper safety and Sentinel UI expected_ok:
+
+- `AITestArena | UI | postprocess after render fix 20260530-071937` returned WARN because helper CLI execution failed before wrapper patching.
+- `AITestArena | UI | postprocess error audit 20260530-072221` found the helper SyntaxError: a literal `return results\\n` was present in `/root/aitestarena/tools/aitestarena_ui_postprocess.py`.
+- `AITestArena | UI | postprocess syntax wrapper fix 20260530-072620` returned `RESULT=OK`: helper syntax was fixed, helper applied successfully to current public/mirror HTML, and `/root/openclaw/workspace/aitestarena/tools/run_aitestarena_hourly_cycle.sh` was patched with marker `AITESTARENA_UI_POSTPROCESS_AFTER_RENDER_20260530` so the UI helper runs after render.
+- `AITestArena | Sentinel | UI expected_ok source audit 20260530-073106` confirmed current UI invariants were OK before adding Sentinel checks: helper compiled, wrapper marker existed, Training was real, and nav/backref/register checks were clean.
+- `AITestArena | Sentinel | add UI expected_ok checks 20260530-073445` returned WARN because the runtime exporter path was wrong.
+- `AITestArena | Sentinel | add UI expected_ok checks retry 20260530-073618` patched the correct file but validation returned WARN because Sentinel nav regex counted `<nav>` incorrectly and watchlist still had one backref.
+- `AITestArena | Sentinel | UI expected_ok regex fix 20260530-073736` returned `RESULT=OK`. Final confirmation: `exporter_regex_fix_rc=0`, `py_exporter_rc=0`, `py_helper_rc=0`, `apply_helper_rc=0`, `snapshot_run_rc=0`, `validate_rc=0`, `SNAPSHOT_UI_EXPECTED_OK=OK`.
+
 ### Key paths touched
 
 Public CSS and mirror:
@@ -106,6 +116,12 @@ Renderers and UI safety helper:
 - `/root/aitestarena/tools/render_watchlist_public_safe.py`
 - `/root/aitestarena/tools/render_silent_gpt55_training.py`
 
+Cycle/Sentinel safety paths:
+
+- `/root/openclaw/workspace/aitestarena/tools/run_aitestarena_hourly_cycle.sh`
+- `/root/aitestarena/tools/export_sentinel_controller_snapshot.py`
+- `/root/openclaw/workspace/aitestarena/state/controller_snapshots/aitestarena_pipeline_controller_snapshot_latest.json`
+
 Golden backup now important for Training recovery:
 
 - `/root/aitestarena/backups/ui_nav_height_unify_20260529-213010/public/training_index.html`
@@ -113,11 +129,13 @@ Golden backup now important for Training recovery:
 ### Final confirmed technical state
 
 - Public pages smoke-tested as HTTP 200 during summaries.
-- Renderer syntax final state after the final regression fix: `py_helper_rc=0`, `py_agents_rc=0`, `py_watch_rc=0`, `py_train_rc=0`.
-- Training recovery final state: `training_marker_rc=0`.
+- Renderer/helper syntax final state after the final regression fix: `py_helper_rc=0`, `py_agents_rc=0`, `py_watch_rc=0`, `py_train_rc=0`.
+- UI helper is wired into the 07-cycle wrapper after render via marker `AITESTARENA_UI_POSTPROCESS_AFTER_RENDER_20260530`.
+- Sentinel snapshot exporter now includes UI expected_ok checks.
+- Sentinel UI expected_ok final state: `validate_rc=0`, `SNAPSHOT_UI_EXPECTED_OK=OK`.
+- Training recovery final state: `training_marker_rc=0` in UI helper checks and `ui_training_marker_count=5` in Sentinel snapshot export.
 - `/agents/cabinet/` final nav state after hard dedupe: `nav_count=1`, `arena_nav_count=1`, `header_count=0`.
-- No render was intentionally run during the final cabinet nav dedupe or final nav/training regression fix.
-- User visually confirmed nav buttons had equal height and stopped jumping between pages before the later regression; the final helper was added specifically to prevent recurrence on rendered pages.
+- No render was intentionally run during the final cabinet nav dedupe, final nav/training regression fix, wrapper fix, or Sentinel UI expected_ok patch.
 
 ### Backups referenced by terminal summaries
 
@@ -133,18 +151,23 @@ Terminal summaries created dated backups under `/root/aitestarena/backups/`, inc
 - `ui_agent_cabinet_remove_duplicate_nav_*`
 - `ui_agent_cabinet_nav_hard_dedupe_*`
 - `ui_nav_training_regression_fix_20260529-221952`
+- `ui_postprocess_syntax_wrapper_fix_*`
+- `sentinel_ui_expected_ok_regex_fix_*`
 
 The exact paths are in Gmail terminal summary emails. Some long backup paths may be masked in email snippets; use terminal summaries or server verification if exact path is required.
 
 ### Protected areas explicitly not touched
 
-Across the UI summaries, the following were repeatedly marked as not touched:
+Across the UI/Sentinel summaries, the following were repeatedly marked as not touched:
 
+- No render run during the final fixes.
+- No cron edits.
 - No bankroll changes.
 - No positions changes.
 - No settlement changes.
 - No watchlist JSON/data logic changes.
-- No cron/runtime changes.
+- No agent_decisions changes.
+- No GPT calls.
 - No secrets/tokens/private submissions intentionally exposed.
 - No real-money or gambling actions.
 
@@ -152,26 +175,31 @@ Across the UI summaries, the following were repeatedly marked as not touched:
 
 Do not reapply the failed `background unify` patch directly. If background consistency still matters, first audit inline/page-level background rules and avoid regex-helper insertions that can break Python renderer syntax.
 
-Any future UI change touching renderers must include syntax checks:
+Any future UI change touching renderers or Sentinel must include syntax checks:
 
 ```bash
 python3 -m py_compile /root/aitestarena/tools/aitestarena_ui_postprocess.py
 python3 -m py_compile /root/aitestarena/tools/render_agents_public_safe.py
 python3 -m py_compile /root/aitestarena/tools/render_watchlist_public_safe.py
 python3 -m py_compile /root/aitestarena/tools/render_silent_gpt55_training.py
+python3 -m py_compile /root/aitestarena/tools/export_sentinel_controller_snapshot.py
 ```
 
-If `/training/` changes unexpectedly, check `/root/aitestarena/tools/aitestarena_ui_postprocess.py` and `/root/aitestarena/tools/render_silent_gpt55_training.py` first, because training can be regenerated and the helper now restores from the golden real Training backup when a placeholder/stub is produced.
+If `/training/` changes unexpectedly, check `/root/aitestarena/tools/aitestarena_ui_postprocess.py`, the 07-cycle wrapper marker, and `/root/aitestarena/tools/render_silent_gpt55_training.py` first, because training can be regenerated and the helper now restores from the golden real Training backup when a placeholder/stub is produced.
 
-If duplicate navigation or old `Register Agent` appears again on `/agents/`, `/watchlist/`, `/training/`, or `/agents/cabinet/`, check `aitestarena_ui_postprocess.py` and the three renderers before editing CSS. The helper is now an active part of the UI render safety layer.
+If duplicate navigation, old `Register Agent`, or a literal `\\1` appears again on `/agents/`, `/watchlist/`, `/training/`, or `/agents/cabinet/`, check `aitestarena_ui_postprocess.py`, wrapper marker `AITESTARENA_UI_POSTPROCESS_AFTER_RENDER_20260530`, and Sentinel exporter before editing CSS.
 
-Expected postprocess invariants for rendered/cabinet pages:
+Expected UI/Sentinel invariants:
 
 - `nav_count=1`
 - `arena_nav_count=1`
 - `topnav_count=0`
 - `backref_count=0`
 - `Register Agent` count = 0
+- `training_marker_count >= 3`
+- `training_placeholder_bad=False`
+- `helper_py_compile_rc=0`
+- `wrapper_marker_exists=True`
 
 ## Other Gmail terminal-summary groups on 2026-05-29
 
@@ -202,5 +230,5 @@ These groups should be expanded only if relevant to the next task.
 ## Sync state
 
 - Gmail evidence: present.
-- Google Drive active source: updated with compact AITestArena UI Phase 1 / cabinet polish note and later regression-fix addendum.
+- Google Drive active source: updated with compact AITestArena UI Phase 1 / cabinet polish note, regression-fix addendum, and Sentinel UI expected_ok addendum.
 - GitHub session map: this file.
