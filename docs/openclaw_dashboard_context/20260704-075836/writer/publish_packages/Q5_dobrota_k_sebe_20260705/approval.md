@@ -1,0 +1,11 @@
+# Q5 Approval
+
+PUBLISH_APPROVED: false
+OWNER_APPROVAL_REQUIRED: true
+APPROVAL_MARK_REQUIRED: ᚤᚹᛉᛊᛞ
+APPROVAL_STATUS: PENDING
+APPROVED_AT:
+APPROVED_BY:
+
+Rule:
+Do not set PUBLISH_APPROVED true without explicit owner approval.
